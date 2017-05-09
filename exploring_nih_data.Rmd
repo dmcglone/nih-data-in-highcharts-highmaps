@@ -1,0 +1,61 @@
+---
+title: "Exploring NIH data with R and Highmaps Charts"
+author: "Daniel McGlone"
+date: "April 24, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#load required packages
+library(readr)
+library(dplyr)
+library(htmlwidgets)
+library(highcharter)
+library(RColorBrewer)
+library(leaflet)
+library(rgdal)
+library(dygraphs)
+library(quantmod)
+library(DT)
+library(httr)
+library(rvest)
+library(geojsonio)
+```
+
+## Exploring the Datasets
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+
+```{r NIH data import}
+#read nih by state data
+nih <- read.csv("2016 NIH funding per state.csv")
+
+#read nih by city data
+nih_by_city <- read.csv("2016 NIH funding by city geocoding result.csv")
+
+#read population data
+pop <- read.csv("2016 state population.csv")
+
+#get summary of state data
+summary(nih_by_city$STATE)
+
+```
+
+Note that there are Canadian provinces and territories in the data, I'm going to throw those out in favor of a traditional 50 states layout.
+
+```{r create subset}
+#create subset of nih_by_city for only United States, excluding territories
+nih_by_city_clean <- subset(nih_by_city, COUNTRY_1 =="UNITED STATES" & STATE != "AS" & STATE !=  "GU" & STATE != "VI" & STATE != "PR")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
