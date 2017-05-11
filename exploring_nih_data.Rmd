@@ -12,7 +12,6 @@ library(readr)
 library(dplyr)
 library(htmlwidgets)
 library(highcharter)
-library(RColorBrewer)
 library(leaflet)
 library(rgdal)
 library(dygraphs)
@@ -50,12 +49,38 @@ Note that there are Canadian provinces and territories in the data, I'm going to
 nih_by_city_clean <- subset(nih_by_city, COUNTRY_1 =="UNITED STATES" & STATE != "AS" & STATE !=  "GU" & STATE != "VI" & STATE != "PR")
 ```
 
-## Including Plots
+## Joining files
 
-You can also embed plots, for example:
+For the NIH funding by state, I'm going to bring in a data frame containing population and do a join so I can calculate NIH funding per capita.
 
-```{r pressure, echo=FALSE}
+```{r joining}
+#rename state column in NIH file so it matches my population file
+colnames(nih)[colnames(nih)=="LOCATION"] <- "State"
 
+#merge NIH with Population file based on common field
+nih_pop = merge(nih,pop)
+
+#Add new field with NIH funding per capita
+nih_pop$NIH_perCapita <- nih_pop$FUNDING / nih_pop$Population
+```
+
+## Download map data and make a choropleth map
+
+For the NIH funding by state, I'm going to bring in a data frame containing population and do a join so I can calculate NIH funding per capita.
+
+```{r mapping}
+#download map data from highcharts
+mapdata <- get_data_from_map(download_map_data("countries/us/us-all"))
+
+#you can write this line of code to take preview the table in your viewer pane
+glimpse(mapdata)
+
+#make map of states with NIH funding per capita
+hcmap("countries/us/us-all", data = nih_pop, value = "NIH_perCapita",
+      joinBy = c("name", "State"), name = "2016 NIH Funding Per Capita",
+      dataLabels = list(enabled = TRUE, format = '{point.properties.hc-a2}'),
+      borderColor = "#FAFAFA", borderWidth = 0.1,
+      tooltip = list(format = '{point.x:,.0f}'))
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

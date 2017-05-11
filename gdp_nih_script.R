@@ -3,7 +3,6 @@ library(readr)
 library(dplyr)
 library(htmlwidgets)
 library(highcharter)
-library(RColorBrewer)
 library(leaflet)
 library(rgdal)
 library(dygraphs)
@@ -31,7 +30,6 @@ summary(nih_by_city$STATE)
 #create subset of nih_by_city for only United States, excluding territories
 nih_by_city_clean <- subset(nih_by_city, COUNTRY_1 =="UNITED STATES" & STATE != "AS" & STATE !=  "GU" & STATE != "VI" & STATE != "PR")
 
-
 #create dissolved nih_by_city_clean to aggregate data to cities
 nih_by_city_clean_dissolved <- nih_by_city_clean %>%
   group_by(Match_addr) %>%
@@ -40,7 +38,7 @@ nih_by_city_clean_dissolved <- nih_by_city_clean %>%
 #rename state column in nih
 colnames(nih)[colnames(nih)=="LOCATION"] <- "State"
 
-#merge gdp/nih datasets with pop based on common field
+#merge nih with pop based on common field
 nih_pop = merge(nih,pop)
 
 #add new field with NIH funding per capita
@@ -53,7 +51,7 @@ glimpse(mapdata)
 #make map of states with number of NIH awards
 hcmap("countries/us/us-all", data = nih_pop, value = "AWARDS",
       joinBy = c("name", "State"), name = "NIH Awards",
-      dataLabels = list(enabled = TRUE, format = '{point.name}'),
+      dataLabels = list(enabled = TRUE, format = '{point.properties.hc-a2}'),
       borderColor = "#FAFAFA", borderWidth = 0.1,
       tooltip = list(format = '{point.x:,.0f}'))
 
