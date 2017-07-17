@@ -1,7 +1,7 @@
 ---
 title: "Exploring NIH data with R and Highmaps Charts"
 author: "Daniel McGlone"
-date: "April 24, 2017"
+date: "July 17, 2017"
 output: html_document
 ---
 
@@ -24,7 +24,7 @@ library(geojsonio)
 
 ## Exploring the Datasets
 
-Here we'll read in the NIH and population data.
+Here we'll read in the NIH and population data.The U.S. Department of Health and Human Services provides an online providing reporting tool to download NIH grant data by location and organization. The data can be downloaded all the way back to 1992 in an Excel format. 
 
 ```{r NIH data import}
 #read nih by state data
