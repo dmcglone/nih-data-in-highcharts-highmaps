@@ -114,6 +114,7 @@ highchart(type = "map") %>%
                 color = 'rgba(57, 86, 139, 0.5)') %>% 
   hc_tooltip(useHTML = TRUE, headerFormat ="", 
              pointFormat = "<b>{point.Match_addr}:</b> <br> ${point.total_funding:,.0f}") %>%
-  hc_mapNavigation(enabled = TRUE)
+  hc_mapNavigation(enabled = TRUE) %>%
+  hc_add_theme(hc_theme_538())
 ```
 
