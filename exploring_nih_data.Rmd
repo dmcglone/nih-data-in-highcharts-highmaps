@@ -106,15 +106,14 @@ data("usgeojson")
 
 #make bubble map of NIH funding locations
 highchart(type = "map") %>% 
-  hc_title(text = "NIH Funding Locations") %>% 
+  hc_title(text = "NIH Funding Locations") %>%
   hc_add_series(mapData =usgeojson, showInLegend = FALSE,
                 nullColor = "#D3D3D3", borderColor= '#A0A0A0') %>% 
-  hc_add_series(data = nih_by_city_clean_dissolved, type = "mapbubble", name = "Funding Location",  minSize = 1, maxSize = 30, 
+  hc_add_series(data = nih_by_city_clean_dissolved, type = "mapbubble", name = "2016 Funding Location",  minSize = 1, maxSize = 30, 
                 dataLabels = list(enabled = FALSE),
                 color = 'rgba(57, 86, 139, 0.5)') %>% 
   hc_tooltip(useHTML = TRUE, headerFormat ="", 
              pointFormat = "<b>{point.Match_addr}:</b> <br> ${point.total_funding:,.0f}") %>%
-  hc_mapNavigation(enabled = TRUE) %>%
-  hc_add_theme(hc_theme_538())
+  hc_mapNavigation(enabled = TRUE)
 ```
 
