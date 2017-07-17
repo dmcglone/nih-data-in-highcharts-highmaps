@@ -42,7 +42,7 @@ colnames(nih)[colnames(nih)=="LOCATION"] <- "State"
 nih_pop = merge(nih,pop)
 
 #add new field with NIH funding per capita
-nih_pop$NIH_perCapita <- nih_pop$FUNDING / nih_pop$Population
+nih_pop$NIH_perCapita <- round((nih_pop$FUNDING / nih_pop$Population),1)
 
 #download map data from highcharts
 mapdata <- get_data_from_map(download_map_data("countries/us/us-all"))

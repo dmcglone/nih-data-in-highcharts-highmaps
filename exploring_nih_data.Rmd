@@ -24,8 +24,7 @@ library(geojsonio)
 
 ## Exploring the Datasets
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
+Here we'll read in the NIH and population data.
 
 ```{r NIH data import}
 #read nih by state data
@@ -61,7 +60,7 @@ colnames(nih)[colnames(nih)=="LOCATION"] <- "State"
 nih_pop = merge(nih,pop)
 
 #Add new field with NIH funding per capita
-nih_pop$NIH_perCapita <- nih_pop$FUNDING / nih_pop$Population
+nih_pop$NIH_perCapita <- round((nih_pop$FUNDING / nih_pop$Population),1)
 ```
 
 ## Download map data and make a choropleth map
@@ -80,10 +79,10 @@ hcmap("countries/us/us-all", data = nih_pop, value = "NIH_perCapita",
       joinBy = c("name", "State"), name = "2016 NIH Funding Per Capita",
       dataLabels = list(enabled = TRUE, format = '{point.properties.hc-a2}'),
       borderColor = "#FAFAFA", borderWidth = 0.1,
-      tooltip = list(format = '{point.x:,.0f}'))
+      tooltip = list(format = '{point.y:.0f}'))
 ```
 
-## Download map data and make a choropleth map
+## Make a bubble map
 
 Highmaps can also do point-based mapping. In the example below, I'm going to make a bubble map showing the amount of funding per city, indicated by the size of the bubble.
 
