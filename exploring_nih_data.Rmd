@@ -1,5 +1,5 @@
 ---
-title: "Exploring NIH data with R and Highmaps Charts"
+title: "Exploring NIH data with R and Highcharter Highmaps"
 author: "Daniel McGlone"
 date: "July 17, 2017"
 output:
